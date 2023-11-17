@@ -1,0 +1,36 @@
+const fakeDatas = [
+  {
+    day: "Monday",
+    date: "13 November ",
+    weather: "Sunny",
+    minTemperature: 18,
+    maxTemperature: 25,
+    location: "Kaoshiung",
+    time: ["現在", "下午1點", "下午2點", "下午3點", "下午4點"],
+    hourlyWeather: ["Sunny", "Sunny", "Cloudy", "Rainy", "Rainy"],
+    hourlyTemperatures: [20, 22, 23, 24, 25],
+  },
+  {
+    day: "Tuesday",
+    date: "14 November",
+    weather: "Cloudy",
+    minTemperature: 15,
+    maxTemperature: 21,
+    location: "Taipei",
+    time: ["現在", "下午1點", "下午2點", "下午3點", "下午4點"],
+    hourlyWeather: ["Cloudy", "Cloudy", "Rainy", "Rainy", "Rainy"],
+    hourlyTemperatures: [16, 17, 30, 19, 20],
+  },
+  {
+    day: "Tuesday",
+    date: "14 November ",
+    weather: "Rainy",
+    minTemperature: 13,
+    maxTemperature: 20,
+    location: "Taoyuan",
+    time: ["現在", "下午1點", "下午2點", "下午3點", "下午4點"],
+    hourlyWeather: ["Cloudy", "Cloudy", "Rainy", "Rainy", "Rainy"],
+    hourlyTemperatures: [18, 17, 21, 19, 20],
+  },
+];
+export default fakeDatas;
