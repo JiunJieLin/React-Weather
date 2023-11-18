@@ -22,7 +22,7 @@ const Home = () => {
   };
   return (
     <div
-      className=" min-h-screen bg-center bg-cover flex flex-col  border-2 gap-10 p-4"
+      className=" min-h-screen bg-center bg-cover flex flex-col  border-2 gap-10 p-4 sm: justify-center sm:gap-3"
       style={{ backgroundImage: `url(${backgroundImage.src})` }}
     >
       <div className="flex flex-col items-center w-full pt-16">

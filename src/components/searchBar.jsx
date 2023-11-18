@@ -6,7 +6,7 @@ const SearchBar = ({ setSelectLocation, selectLocation, handleSubmit }) => {
     setSelectLocation(newLocation);
   };
   return (
-    <div className="py-4 px-10 relative bg-white rounded-full w-[600px]">
+    <div className="py-4 px-10 relative bg-white rounded-full w-[600px] sm:w-[300px]">
       <input
         type="text"
         placeholder="輸入地點"
