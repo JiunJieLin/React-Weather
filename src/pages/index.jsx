@@ -1,41 +1,20 @@
 import backgroundImage from "../public/backgroundImage.jpg";
-import SearchBar from "@/components/searchBar";
-import Weather from "@/components/weather";
-import { useState } from "react";
-import fakeDatas from "@/components/fakeData";
 
+import Weather from "@/components/weather";
+import fakeDatas from "@/components/fakeData";
 const Home = () => {
-  const [selectLocation, setSelectLocation] = useState("");
-  const [selectedLocationIndex, setSelectedLocationIndex] = useState(null);
-  const handleSubmit = () => {
-    if (selectLocation.trim() === "") {
-      return;
-    }
-    const index = fakeDatas.findIndex(
-      (data) => data.location.toLowerCase() === selectLocation.toLowerCase()
-    );
-    if (index !== -1) {
-      setSelectedLocationIndex(index);
-    } else {
-      console.log("地點未找到");
-    }
-  };
+  const weatherLocation = fakeDatas[0];
   return (
     <div
-      className=" min-h-screen bg-center bg-cover flex flex-col  border-2 gap-10 p-4 sm: justify-center sm:gap-3"
+      className=" min-h-screen bg-center bg-cover flex flex-col relative sm: justify-center "
       style={{ backgroundImage: `url(${backgroundImage.src})` }}
     >
-      <div className="flex flex-col items-center w-full pt-16">
-        <p className="text-purple-300 text-3xl font-bold ">WEATHER APP</p>
-        <SearchBar
-          setSelectLocation={setSelectLocation}
-          selectLocation={selectLocation}
-          handleSubmit={handleSubmit}
-        />
+      <p className="text-purple-300 text-2xl font-bold absolute top-0 left-0 sm:text-lg">
+        WEATHER APP
+      </p>
+      <div className="flex flex-col items-center gap-6 sm:gap-3 ">
+        <Weather data={weatherLocation} />
       </div>
-      {selectedLocationIndex !== null && (
-        <Weather selectedLocationIndex={selectedLocationIndex} />
-      )}
     </div>
   );
 };
