@@ -6,15 +6,14 @@ const Home = () => {
   const weatherLocation = fakeDatas[0];
   return (
     <div
-      className=" min-h-screen bg-center bg-cover flex flex-col relative sm: justify-center "
+      className="min-h-screen bg-center bg-cover flex flex-col relative sm:justify-center justify-center items-center"
       style={{ backgroundImage: `url(${backgroundImage.src})` }}
     >
-      <p className="text-purple-300 text-2xl font-bold absolute top-0 left-0 sm:text-lg">
-        WEATHER APP
-      </p>
-      <div className="flex flex-col items-center gap-6 sm:gap-3 ">
+      <div className="flex flex-col items-center gap-6 sm:gap-3 relative z-10">
         <Weather data={weatherLocation} />
       </div>
+
+      <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30"></div>
     </div>
   );
 };
