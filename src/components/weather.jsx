@@ -1,130 +1,54 @@
-import cloudIcon from "@/public/cloud.png";
-import sunnyIcon from "@/public/sunny.png";
-import rainIcon from "@/public/rain.png";
-import Image from "next/image";
+import CurrentWeather from "./current-weather";
+import ForecastItem from "./fore-cast-weather";
+import HourlyForecast from "./hourly-forecast";
+import { formatDateInfo, renderIcon } from "../utils/formatDateInfo";
 
 const Weather = ({ data }) => {
-  console.log(Date.now());
-  const date = data.dateList[0].date;
-  const transformedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-  console.log(transformedDate);
+  // - first date Convert to 19 November 2023
+  const firstDate = data.dateList[0].date; // 19 November
+  const currentDate = formatDateInfo(firstDate);
+  const convertedDate = `${currentDate.month} ${currentDate.date} ${currentDate.year}`; // November 19 2023
+
+  // - Current weather & icon
   const currentWeather = data.dateList[0].weather;
+  const currentIcon = renderIcon(currentWeather);
 
-  const currentIcon =
-    currentWeather === "Sunny"
-      ? sunnyIcon
-      : currentWeather === "Cloudy"
-      ? cloudIcon
-      : rainIcon;
-
+  // - hourlyWeatherData
   const hourlyWeatherData = data.dateList[0].hourlyWeather;
 
-  const timeValues = hourlyWeatherData.map((hourData) => {
-    const time = Object.values(hourData)[0];
-    return time;
-  });
+  const timeValues = hourlyWeatherData.map(
+    (hourData) => Object.values(hourData)[0]
+  );
   const tempNow = timeValues[0];
-
   const dailyHighestTemp = Math.max(...timeValues);
   const dailyLowestTemp = Math.min(...timeValues);
 
   return (
     <>
-      <div className="flex justify-start flex-col text-white sm:justify-center sm:items-center ">
+      <div className="flex flex-col justify-start text-white sm:justify-center sm:items-center">
         <h1 className="text-[60px] sm:text-[35px]">{data.location}</h1>
-        <p className="text-lg ">{transformedDate}</p>
+        <p className="text-lg">{convertedDate}</p>
       </div>
-      <div className="flex  sm:flex-col items-center ">
-        <div className="flex  gap-2 sm:flex-col sm:items-center sm: justify-cener ">
-          <Image
-            priority={true}
-            src={currentIcon}
-            alt={currentWeather}
-            className="w-[200px] h-[200px] sm:opacity-40  sm:w-[150px] sm:h-[150px] "
+      <CurrentWeather
+        currentIcon={currentIcon}
+        currentWeather={currentWeather}
+        tempNow={tempNow}
+        dailyHighestTemp={dailyHighestTemp}
+        dailyLowestTemp={dailyLowestTemp}
+      />
+      <div className="mt-6">
+        <HourlyForecast hourlyWeatherData={data.dateList[0].hourlyWeather} />
+      </div>
+      <hr className="bg-white h-1 w-full text-white" />
+      <div className="flex gap-4 sm:flex-col">
+        {data.dateList.slice(1).map((dayData, index) => (
+          <ForecastItem
+            key={index}
+            date={dayData.date}
+            weather={dayData.weather}
+            hourlyWeather={dayData.hourlyWeather}
           />
-          <div className="text-white flex flex-col items-center sm:justify-center ">
-            <div className="text-[70px]">{tempNow}°C</div>
-            <p className="text-2xl ">{currentWeather}</p>
-            <div className="text-white flex gap-6 sm:flex-row sm:gap-3">
-              <div className="flex flex-col items-center">
-                <p>{dailyHighestTemp}</p>
-                <p>Hight</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <p>{dailyLowestTemp}</p>
-                <p>Low</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="mt-6 flex flex-col  justify-between">
-        <div className="flex items-center gap-2 ">
-          {data.dateList[0].hourlyWeather.map((hour, index) => (
-            <div
-              key={index}
-              className="rounded-full  bg-black bg-opacity-40 text-white px-5 py-5 "
-            >
-              <p>
-                {Object.keys(hour)[0] === "01:00"
-                  ? "現在"
-                  : Object.keys(hour)[0]}
-              </p>
-              <Image
-                src={
-                  hour.weather === "Sunny"
-                    ? sunnyIcon
-                    : hour.weather === "Cloudy"
-                    ? cloudIcon
-                    : rainIcon
-                }
-                alt="sunny"
-                className="w-10 h-10"
-              />
-              <p>{Object.values(hour)[0]}°C</p>
-            </div>
-          ))}
-        </div>
-        <div className="pt-10 sm:pt-0">
-          <h2 className="text-white text-lg pb-3 ">Forecast</h2>
-          <div className="flex gap-4 sm:flex-col">
-            {data.dateList.map((dayData, index) => {
-              const timeValues = dayData.hourlyWeather.map((hourData) => {
-                const time = Object.values(hourData)[0];
-                return time;
-              });
-              const dailyHighestTemp = Math.max(...timeValues);
-              const dailyLowestTemp = Math.min(...timeValues);
-              const hourlyWeather =
-                dayData.weather === "Sunny"
-                  ? sunnyIcon
-                  : dayData.weather === "Cloudy"
-                  ? cloudIcon
-                  : rainIcon;
-
-              return (
-                <div
-                  key={index}
-                  className="px-5 py-5 text-white bg-white bg-opacity-30 flex flex-col items-center gap-6 rounded-2xl sm:flex-row sm:bg-opacity-50 sm:justify-around"
-                >
-                  <p>今天</p>
-                  <Image
-                    src={hourlyWeather}
-                    alt="sunny"
-                    className="w-10 h-10"
-                  />
-                  <p>
-                    {dailyLowestTemp}°C---{dailyHighestTemp}°C
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        ))}
       </div>
     </>
   );
