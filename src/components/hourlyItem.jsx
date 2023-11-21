@@ -2,7 +2,7 @@ import Image from "next/image";
 import { renderIcon } from "@/components/formattedData.js";
 const HourlyItem = ({ hourlyWeatherData }) => {
   return (
-    <div className="flex items-center gap-2 justify-center ">
+    <div className="flex items-center gap-6 justify-center lg:gap-2 ">
       {hourlyWeatherData.map((hour, index) => (
         <div
           key={index}

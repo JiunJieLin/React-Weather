@@ -8,7 +8,7 @@ const CurrentWeather = ({
 }) => {
   return (
     <div className="flex  sm:flex-col items-center ">
-      <div className="flex  gap-2 sm:flex-col sm:items-center sm: justify-cener ">
+      <div className="flex gap-2 sm:flex-col sm:items-center sm: justify-cener">
         <Image
           priority={true}
           src={currentIcon}

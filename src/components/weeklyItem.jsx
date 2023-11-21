@@ -3,7 +3,7 @@ import { renderIcon, formatDateInfo } from "@/components/formattedData.js";
 
 const WeeklyItem = ({ dateList }) => {
   return (
-    <div className="flex gap-4 sm:flex-col">
+    <div className="flex gap-6 sm:flex-col lg:gap-4">
       {dateList.map((dayData, index) => {
         const timeValues = dayData.hourlyWeather.map((hourData) => {
           const time = Object.values(hourData)[0];
