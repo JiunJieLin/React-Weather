@@ -1,5 +1,5 @@
 import { renderIcon, formatDateInfo } from "@/components/formattedData.js";
-import CurrentWeather from "./CurrentWeather";
+import CurrentWeather from "./currentWeather";
 import HourlyItem from "./hourlyItem";
 import WeeklyItem from "./weeklyItem";
 import Button from "@/components/button";
