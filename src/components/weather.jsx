@@ -4,14 +4,13 @@ import rainIcon from "@/public/rain.png";
 import Image from "next/image";
 
 const Weather = ({ data }) => {
-  console.log(Date.now());
   const date = data.dateList[0].date;
-  const transformedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-  console.log(transformedDate);
+  const getYear = new Date().getFullYear();
+  const [day, month] = date.split(" ");
+
+  const transformedFirstDate = `${month} ${day},${getYear}`;
+  console.log(transformedFirstDate);
+
   const currentWeather = data.dateList[0].weather;
 
   const currentIcon =
@@ -36,7 +35,7 @@ const Weather = ({ data }) => {
     <>
       <div className="flex justify-start flex-col text-white sm:justify-center sm:items-center ">
         <h1 className="text-[60px] sm:text-[35px]">{data.location}</h1>
-        <p className="text-lg ">{transformedDate}</p>
+        <p className="text-lg ">{transformedFirstDate}</p>
       </div>
       <div className="flex  sm:flex-col items-center ">
         <div className="flex  gap-2 sm:flex-col sm:items-center sm: justify-cener ">
@@ -105,13 +104,30 @@ const Weather = ({ data }) => {
                   : dayData.weather === "Cloudy"
                   ? cloudIcon
                   : rainIcon;
+              const date = dayData.date;
 
+              const getYear = new Date().getFullYear();
+              const [day, month] = date.split(" ");
+              const formattedDate = new Date(`${month} ${day},${getYear}`);
+              const dayOfWeek = formattedDate.getDay();
+
+              const daysOfWeek = [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+              ];
+              const dayName = daysOfWeek[dayOfWeek];
+              console.log(dayName);
               return (
                 <div
                   key={index}
                   className="px-5 py-5 text-white bg-white bg-opacity-30 flex flex-col items-center gap-6 rounded-2xl sm:flex-row sm:bg-opacity-50 sm:justify-around"
                 >
-                  <p>今天</p>
+                  <p>{dayData.id === "01" ? "Today" : dayName}</p>
                   <Image
                     src={hourlyWeather}
                     alt="sunny"
