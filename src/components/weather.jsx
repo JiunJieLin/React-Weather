@@ -1,24 +1,11 @@
-import cloudIcon from "@/public/cloud.png";
-import sunnyIcon from "@/public/sunny.png";
-import rainIcon from "@/public/rain.png";
 import Image from "next/image";
-
+import { renderIcon, formatDateInfo } from "@/components/formattedData.js";
 const Weather = ({ data }) => {
-  const date = data.dateList[0].date;
-  const getYear = new Date().getFullYear();
-  const [day, month] = date.split(" ");
-
-  const transformedFirstDate = `${month} ${day},${getYear}`;
-  console.log(transformedFirstDate);
-
+  const firstDate = formatDateInfo(data.dateList[0].date);
+  const transformedFirstDate = `${firstDate.month} ${firstDate.date},${firstDate.year}`;
   const currentWeather = data.dateList[0].weather;
 
-  const currentIcon =
-    currentWeather === "Sunny"
-      ? sunnyIcon
-      : currentWeather === "Cloudy"
-      ? cloudIcon
-      : rainIcon;
+  const currentIcon = renderIcon(currentWeather);
 
   const hourlyWeatherData = data.dateList[0].hourlyWeather;
 
@@ -61,8 +48,8 @@ const Weather = ({ data }) => {
           </div>
         </div>
       </div>
-      <div className="mt-6 flex flex-col  justify-between">
-        <div className="flex items-center gap-2 ">
+      <div className="mt-6 flex flex-col  justify-between gap-10">
+        <div className="flex items-center gap-2 justify-center ">
           {data.dateList[0].hourlyWeather.map((hour, index) => (
             <div
               key={index}
@@ -74,13 +61,7 @@ const Weather = ({ data }) => {
                   : Object.keys(hour)[0]}
               </p>
               <Image
-                src={
-                  hour.weather === "Sunny"
-                    ? sunnyIcon
-                    : hour.weather === "Cloudy"
-                    ? cloudIcon
-                    : rainIcon
-                }
+                src={renderIcon(hour.weather)}
                 alt="sunny"
                 className="w-10 h-10"
               />
@@ -88,8 +69,8 @@ const Weather = ({ data }) => {
             </div>
           ))}
         </div>
-        <div className="pt-10 sm:pt-0">
-          <h2 className="text-white text-lg pb-3 ">Forecast</h2>
+        <div className="border-2 rounded-lg w-full  text-white"></div>
+        <div className=" sm:pt-0">
           <div className="flex gap-4 sm:flex-col">
             {data.dateList.map((dayData, index) => {
               const timeValues = dayData.hourlyWeather.map((hourData) => {
@@ -98,44 +79,28 @@ const Weather = ({ data }) => {
               });
               const dailyHighestTemp = Math.max(...timeValues);
               const dailyLowestTemp = Math.min(...timeValues);
-              const hourlyWeather =
-                dayData.weather === "Sunny"
-                  ? sunnyIcon
-                  : dayData.weather === "Cloudy"
-                  ? cloudIcon
-                  : rainIcon;
+              const hourlyWeather = renderIcon(dayData.weather);
               const date = dayData.date;
-
-              const getYear = new Date().getFullYear();
-              const [day, month] = date.split(" ");
-              const formattedDate = new Date(`${month} ${day},${getYear}`);
-              const dayOfWeek = formattedDate.getDay();
-
-              const daysOfWeek = [
-                "Sunday",
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-              ];
-              const dayName = daysOfWeek[dayOfWeek];
-              console.log(dayName);
+              const formattedDate = formatDateInfo(date);
+              const dayOfWeek = formattedDate.dayOfWeek;
+              console.log(dayOfWeek);
               return (
                 <div
                   key={index}
-                  className="px-5 py-5 text-white bg-white bg-opacity-30 flex flex-col items-center gap-6 rounded-2xl sm:flex-row sm:bg-opacity-50 sm:justify-around"
+                  className="px-10 py-5 text-white bg-white bg-opacity-30 flex flex-col items-center gap-4 rounded-2xl sm:flex-row sm:bg-opacity-30 sm:justify-around"
                 >
-                  <p>{dayData.id === "01" ? "Today" : dayName}</p>
+                  <p>{dayData.id === "01" ? "Today" : dayOfWeek}</p>
                   <Image
                     src={hourlyWeather}
                     alt="sunny"
                     className="w-10 h-10"
                   />
-                  <p>
-                    {dailyLowestTemp}°C---{dailyHighestTemp}°C
-                  </p>
+
+                  <div className="flex gap-2">
+                    <p className="text-blue-400">{dailyLowestTemp}°C</p>
+                    <div className="border-2 rounded-lg w-full  text-white"></div>
+                    <p className="text-red-400">{dailyHighestTemp}°C</p>
+                  </div>
                 </div>
               );
             })}
