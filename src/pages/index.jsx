@@ -1,5 +1,4 @@
 import backgroundImage from "../public/backgroundImage.jpg";
-
 import Weather from "@/components/weather";
 import fakeDatas from "@/components/fakeData";
 const Home = () => {
