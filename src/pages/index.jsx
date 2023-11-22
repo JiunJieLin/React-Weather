@@ -8,7 +8,7 @@ const Home = () => {
       style={{ backgroundImage: `url(${backgroundImage.src})` }}
     >
       <p className="text-purple-300 text-2xl font-bold absolute top-0 left-0 sm:text-lg">
-        WEATHER APP
+        WEATHER
       </p>
       <div className="flex flex-col items-center gap-6 sm:gap-3 ">
         <Weather />
